@@ -19,7 +19,7 @@ class PhoneAPIView(APIView):
             phone = serializer.validated_data['phone']
 
             otp_code = str(randint(1000, 9999))
-            print("Yaratilgan OTP:", otp_code)
+            print("Sizning kodingiz:", otp_code)
 
             cache.set(phone, {"otp": otp_code, "phone_number": phone}, timeout=900)
 
