@@ -14,7 +14,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id","is_user","is_admin","phone","password","confirm_password")
+        fields = ("id","is_user","is_admin","full_name","phone","password","confirm_password")
 
     def validate(self, data):
         password = data.get("password")
@@ -27,7 +27,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-        """ Yangi foydalanuvchini yaratish """
         password = validated_data.get("password")
         validated_data.pop("confirm_password")
 

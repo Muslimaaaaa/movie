@@ -26,8 +26,9 @@ class UserManager(BaseUserManager):
 # User model
 class User(AbstractBaseUser, PermissionsMixin):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,14}$',
-                                 message="Phone number must be entered in the format: '998900404001'. Up to 14 digits allowed.")
+                                 message="Phone number must be entered in the format: '9989012345678'. Up to 14 digits allowed.")
     phone = models.CharField(validators=[phone_regex], max_length=17, unique=True)
+    full_name = models.CharField(max_length=50, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -50,36 +51,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
 
-class Movie(models.Model):
-    name = models.CharField(max_length=150)
-    year = models.IntegerField()
-    imdb = models.ImageField(upload_to='photos/%Y/%m/%d/', null=True, blank=True)
-    genre = models.CharField(max_length=50, )
-    actor = models.ManyToManyField('Actor')
+class User2(models.Model):
+    email = models.EmailField(unique=True)
 
     def __str__(self):
-        return self.name
+        return self.email
 
 
-class Actor(models.Model):
-    gender = (
-        ('m', 'man'),
-        ('w', 'woman'),
-    )
-
-    name = models.CharField(max_length=150)
-    birthdate = models.DateField()
-    gender = models.CharField(max_length=10, choices=gender, default='man')
+class TokenModel(models.Model):
+    date = models.DateField()
+    token = models.TextField()
+    created = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return str(self.date)
 
-
-class Comment(models.Model):
-    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
-    create_date = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.text
