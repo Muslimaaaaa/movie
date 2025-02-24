@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from app_movies.models import Movie, Actor, Comment
 
-
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
