@@ -50,14 +50,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label):
         return self.is_admin
 
-
-class User2(models.Model):
-    email = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.email
-
-
 class TokenModel(models.Model):
     date = models.DateField()
     token = models.TextField()
